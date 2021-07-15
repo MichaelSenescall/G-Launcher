@@ -58,8 +58,8 @@ jobs:
       - name: Display structure of downloaded files
         run: ls -R
       
-      - name: Print Working Directory
-        run: pwd
+      - name: Touch
+        run: touch G-Launcher.exe
       
       - uses: shallwefootball/s3-upload-action@master
         with:
