@@ -67,9 +67,5 @@ jobs:
           # aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }} # if you have/need it
           aws-region: ap-southeast-2
       
-      - uses: shallwefootball/s3-upload-action@master
-        with:
-          aws_key_id: ${{secrets.AWS_ACCESS_KEY_ID}}
-          aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-          aws_bucket: ${{secrets.AWS_BUCKET}}
-          source_dir: 'release'
+      - name: Copy files to the test website with the AWS CLI
+        run: aws s3 sync ./release s3://g-launcher
