@@ -54,16 +54,14 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: my-artifact
+          path: release
 
       - name: Display structure of downloaded files
         run: ls -R
-      
-      - name: Touch
-        run: touch G-Launcher.exe
       
       - uses: shallwefootball/s3-upload-action@master
         with:
           aws_key_id: ${{secrets.AWS_KEY_ID}}
           aws_secret_access_key: ${{secrets.AWS_SECRET_ACCESS_KEY}}
           aws_bucket: ${{secrets.AWS_BUCKET}}
-          source_dir: 'G-Launcher.exe'
+          source_dir: 'release'
