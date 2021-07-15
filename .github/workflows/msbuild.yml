@@ -35,7 +35,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: my-artifact
-        path: G-Launcher/x64/Release/G-Launcher.exe
+        path: G-Launcher\x64\Release\G-Launcher.exe
 
     #- name: Release
      # uses: fnkr/github-action-ghr@v1
