@@ -45,6 +45,7 @@ jobs:
         #GHR_PATH: G-Launcher/x64/Release/G-Launcher.exe
         #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   release:
+    needs: build
     runs-on: ubuntu-latest
     
     steps:
