@@ -1,0 +1,8 @@
+{
+    "name": "g-launcher",
+    "version-string": "1.0",
+    "dependencies": [
+      "curl",
+      "jsoncpp"
+    ]
+}
