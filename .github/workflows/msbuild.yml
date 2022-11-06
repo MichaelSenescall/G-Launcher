@@ -38,7 +38,29 @@ jobs:
         path: D:\a\G-Launcher\G-Launcher\x64\Release
         retention-days: 1
 
-  upload:
+  release_github:
+    needs: build
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/download-artifact@v2
+      with:
+        name: my-artifact
+
+    - name: Display structure of downloaded files
+      run: ls -R
+  
+    - name: Release
+      uses: fnkr/github-action-ghr@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      env:
+        #GHR_COMPRESS: xz
+        GHR_PATH: G-Launcher.exe
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release_aws:
     needs: build
     runs-on: ubuntu-latest
     
