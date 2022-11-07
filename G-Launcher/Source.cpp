@@ -12,6 +12,7 @@
 namespace fs = std::filesystem;
 
 const std::string version_current = "v1.1";
+const std::string delete_extension = ".G-Launcher-DELETE";
 
 static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp)
 {
@@ -94,7 +95,7 @@ void DownloadLatestFile(std::string cur_pathwfile, std::string out_pathwfile)
     if (hr != S_OK) return;
 
     // Rename old and new files
-    std::string renamed = cur_pathwfile + ".G-Launcher-DELETE";
+    std::string renamed = cur_pathwfile + delete_extension;
     rename(cur_pathwfile.c_str(), renamed.c_str());
     rename(out_pathwfile.c_str(), cur_pathwfile.c_str());
     remove(renamed.c_str());
@@ -110,10 +111,16 @@ int main(int argc, char** argv) {
     std::string out_pathwfile = cur_path + "\\" + out_filename;
 
     // Delete any old files
-    for (const auto& file : fs::recursive_directory_iterator(cur_path))
+    for (const auto& file : fs::directory_iterator(cur_path))
     {
         std::string path = fs::absolute(file.path()).string();
-        remove(path.c_str());
+        if (path.size() >= delete_extension.size())
+        {
+            std::string extension = path.substr(path.size() - delete_extension.size(), delete_extension.size());
+            std::cout << extension << std::endl;
+            if (extension == delete_extension)
+                remove(path.c_str());
+        }
     }
         
     // Check for updates
