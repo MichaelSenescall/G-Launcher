@@ -11,7 +11,7 @@
 
 namespace fs = std::filesystem;
 
-std::string version_filename = "version.txt";
+const std::string version_current = "v1.1";
 
 static size_t WriteCallback(void* contents, size_t size, size_t nmemb, void* userp)
 {
@@ -64,28 +64,13 @@ std::string GetLatestVersion()
 
 bool UpdateNeeded()
 {
-    // Get current version
-    std::string version_current;
-    std::ifstream file(version_filename.c_str());
-    if (file.is_open())
-    {
-        getline(file, version_current);
-        file.close();
-    }
-    else
-    {
-        return true;
-    }
-       
     // Get latest version
     std::string version_latest = GetLatestVersion();
     if (version_latest == "failed") return false;
 
     // Convert to float
-    version_current.erase(0, 1);
-    version_latest.erase(0, 1);
-    float num_version_current = std::stof(version_current);
-    float num_version_latest = std::stof(version_latest);
+    float num_version_current = std::stof(version_current.substr(1, version_current.size() - 1));
+    float num_version_latest = std::stof(version_latest.substr(1, version_latest.size() - 1));
 
     // Final check
     if (num_version_current < num_version_latest)
@@ -113,11 +98,6 @@ void DownloadLatestFile(std::string cur_pathwfile, std::string out_pathwfile)
     rename(cur_pathwfile.c_str(), renamed.c_str());
     rename(out_pathwfile.c_str(), cur_pathwfile.c_str());
     remove(renamed.c_str());
-    
-    // Create version text file
-    std::ofstream file(version_filename.c_str());
-    file << version_latest;
-    file.close();
 }
 
 int main(int argc, char** argv) {
